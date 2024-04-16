@@ -1,0 +1,10 @@
+<?php
+
+
+
+/**
+ * Implements hook_page_attachments().
+ */
+function rsvp_form_data_page_attachments(array &$attachments) {
+  $attachments['#attached']['library'][] = 'rsvp_form_data/rsvp_event_library';
+}

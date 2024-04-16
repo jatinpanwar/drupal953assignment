@@ -1,0 +1,6 @@
+rsvp_event_library:
+  version: 1.0
+  js:
+    js/rsvp_form_data.js: {}
+  dependencies:
+    - core/jquery

@@ -1,0 +1,84 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the rsvp_form_data module.
+ */
+
+use Drupal\Core\Database\Database;
+
+/**
+ * Implements hook_install().
+ */
+function rsvp_form_data_install() {
+  // Create rsvp_status_data table.
+  _rsvp_form_data_create_table();
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function rsvp_form_data_uninstall() {
+  // Drop rsvp_status_data table.
+   // db_drop_table('rsvp_status_data');
+   _rsvp_form_data_drop_table();
+}
+
+/**
+ * Helper function to create rsvp_status_data table.
+ */
+function _rsvp_form_data_create_table() {
+  $schema = Database::getConnection()->schema();
+  $table_name = 'rsvp_status_data';
+
+  if (!$schema->tableExists($table_name)) {
+    $schema->createTable($table_name, [
+      'fields' => [
+        'id' => [
+          'type' => 'serial',
+          'not null' => TRUE,
+        ],
+        'email' => [
+          'type' => 'varchar',
+          'length' => 255,
+          'not null' => TRUE,
+        ],
+        'uname' => [
+          'type' => 'varchar',
+          'length' => 255,
+          'not null' => TRUE,
+        ],
+        'uid' => [
+          'type' => 'varchar',
+          'length' => 255,
+          'not null' => TRUE,
+        ],
+        'node_id' => [
+          'type' => 'int',
+          'size' => 'tiny',
+          'not null' => FALSE,
+          'default' => 0,
+        ],
+        'status' => [
+          'type' => 'varchar',
+          'length' => '255',
+          'not null' => FALSE,
+        ],
+      ],
+      'primary key' => ['id'],
+    ]);
+  }
+}
+
+/**
+ * Drop the rsvp_status_data table.
+ */
+function _rsvp_form_data_drop_table() {
+  // Get the database connection.
+  $connection = \Drupal::database();
+
+  // Drop the table if it exists.
+  if ($connection->schema()->tableExists('rsvp_status_data')) {
+    $connection->schema()->dropTable('rsvp_status_data');
+  }
+}
